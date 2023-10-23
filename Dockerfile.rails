@@ -13,7 +13,7 @@ RUN apk update \
     build-base \
     git \
     netcat-openbsd \
-    nodejs \
+    nodejs npm \
     postgresql-dev \
     tzdata \
     yarn \
