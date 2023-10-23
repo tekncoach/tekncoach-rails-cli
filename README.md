@@ -29,8 +29,8 @@ Then copy'n'paste into your terminal:
 
 ```sh
 docker volume create ruby-bundle-cache
-alias docked='docker run --rm -it -v ${PWD}:/app -v ruby-bundle-cache:/bundle tekncoach/rails/cli'
-alias dockeds='docker run --rm -it -v ${PWD}:/app -v ruby-bundle-cache:/bundle -p 3000:3000 tekncoach/rails/cli'
+alias docked='docker run --rm -it -v ${PWD}:/rails -v ruby-bundle-cache:/bundle tekncoach/rails/cli'
+alias dockeds='docker run --rm -it -v ${PWD}:/rails -v ruby-bundle-cache:/bundle -p 3000:3000 tekncoach/rails/cli'
 ```
 
 You can now use it by referencing it in your `docker-compose.yml` config files or in your aliases on the command line
@@ -64,8 +64,8 @@ And add the following lines:
 ```bash
 # Rails Docked alias 2023
 # https://github.com/rails/docked
-alias docked='docker run --rm -it -v ${PWD}:/app -v ruby-bundle-cache:/bundle tekncoach/rails/cli'
-alias dockeds='docker run --rm -it -v ${PWD}:/app -v ruby-bundle-cache:/bundle -p 3000:3000 tekncoach/rails/cli'
+alias docked='docker run --rm -it -v ${PWD}:/rails -v ruby-bundle-cache:/bundle tekncoach/rails/cli'
+alias dockeds='docker run --rm -it -v ${PWD}:/rails -v ruby-bundle-cache:/bundle -p 3000:3000 tekncoach/rails/cli'
 alias rails='docked rails'
 alias rails-dev='docked bin/dev'
 alias bundle='docked bundle'
@@ -113,7 +113,7 @@ stdin_open: true
 # Allows us to send signals (CTRL+C, CTRL+P + CTRL+Q) into the container
 tty: true
 volumes:
-  - .:/app:cached
+  - .:/rails:cached
   - ruby-bundle-cache:/bundle
 depends_on:
   - db

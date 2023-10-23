@@ -5,7 +5,7 @@ FROM ruby:$RUBY_VERSION-alpine
 # Configure environment variables
 # Use a custom env variable for APP_HOME as using HOME change the `root` user's real home path
 ENV LANG=C.UTF-8 \
-  APP_HOME=/app
+  APP_HOME=/rails
 
 # Install dependencies
 RUN apk update \
@@ -23,7 +23,8 @@ RUN apk update \
   && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 
 # Mount $PWD to this workdir
-# Use the same path in the "docker run --rm -it -v ${PWD}:/app ..." command
+# Use the same path in the "docker run --rm -it -v ${PWD}:/rails ..." command
+# Rails app lives here
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
