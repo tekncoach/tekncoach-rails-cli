@@ -1,0 +1,52 @@
+ARG RUBY_VERSION=3.2.2
+
+FROM ruby:$RUBY_VERSION-alpine
+
+# Configure environment variables
+# Use a custom env variable for APP_HOME as using HOME change the `root` user's real home path
+ENV LANG=C.UTF-8 \
+  APP_HOME=/app
+
+# Install dependencies
+RUN apk update \
+  && apk add --no-cache \
+    build-base \
+    git \
+    netcat-openbsd \
+    nodejs \
+    postgresql-dev \
+    tzdata \
+    yarn \
+    bash \
+    vips-dev \
+    nano \
+  && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
+
+# Mount $PWD to this workdir
+# Use the same path in the "docker run --rm -it -v ${PWD}:/app ..." command
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+# Ensure gems are installed on a persistent volume and available as bins
+VOLUME /bundle
+RUN bundle config set --global path '/bundle'
+ENV PATH="/bundle/ruby/$RUBY_VERSION/bin:${PATH}"
+
+# Ensure gems are installed on a persistent volume and available as bins
+# by linking the "ruby-bundle-cache" volume to the BUNDLE_APP_CONFIG value ("/usr/local/bundle") on "docker run" commands
+# See: https://github.com/docker-library/ruby/blob/master/3.2/alpine3.18/Dockerfile#L159'
+
+RUN gem update --system
+
+# Install Rails
+RUN gem install rails bundler --no-document
+
+# Ensure binding is always 0.0.0.0, even in development, to access server from outside container
+ENV BINDING="0.0.0.0"
+
+# COPY ./bin/docker-entrypoint.sh ./bin/docker-entrypoint.sh
+# RUN chmod +x ./bin/docker-entrypoint.sh
+
+# Overwrite ruby image's entrypoint to provide open cli
+# ENTRYPOINT ["./bin/docker-entrypoint"]
+ENTRYPOINT [""]

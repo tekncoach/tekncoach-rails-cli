@@ -1,0 +1,6 @@
+#!/bin/bash
+# Inspired from https://github.com/rails/docked/tree/main/bin
+
+# docker buildx build --load -t tekncoach/rails/cli -f Dockerfile.rails .
+# --no-cache
+docker build --load -t tekncoach/rails/cli -f Dockerfile.rails .
