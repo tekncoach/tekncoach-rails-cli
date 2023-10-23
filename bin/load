@@ -1,5 +1,6 @@
 #!/bin/bash
 # Inspired from https://github.com/rails/docked/tree/main/bin
+# Generate a Docker image named "tekncoach/rails/cli" from "Dockerfile.rails" file and load it inside your Docker environment on your local machine
 
 # docker buildx build --load -t tekncoach/rails/cli -f Dockerfile.rails .
 # --no-cache
